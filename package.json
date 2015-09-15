@@ -1,0 +1,32 @@
+{
+  "name": "single_rest_api",
+  "version": "1.0.0",
+  "description": "Single Resource REST API",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "mongoose": "^4.1.7"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.2",
+    "chai": "^3.2.0",
+    "chai-http": "^1.0.0"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dsheffield206/single_rest_api.git"
+  },
+  "author": "David Sheffield",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dsheffield206/single_rest_api/issues"
+  },
+  "homepage": "https://github.com/dsheffield206/single_rest_api#readme"
+}
