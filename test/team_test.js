@@ -17,7 +17,7 @@ describe('the team resource', function(){
         });
     });
 
-    it('should add something to the collection', function(done){
+    it('should add something to the collection', function(){
         mongoose.connection.db.insert({some: 'document'});
         mongoose.connection.db.addSomething({hello: 'world'});
         testDoc = mongoose.connection.db.find({some: 'document'});
