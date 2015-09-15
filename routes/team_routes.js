@@ -13,3 +13,5 @@ teamRoute.get('path', function(req, res){
         res.json(data);
     });
 });
+
+teamRoute.db.collection.count();
