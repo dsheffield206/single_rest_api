@@ -1,1 +1,1 @@
-// execute code here
+module.exports = require(__dirname + './server');
