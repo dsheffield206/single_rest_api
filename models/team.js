@@ -10,4 +10,4 @@ var teamSchema = new mongoose.Schema({
     NFLDraft: String
 });
 
-module.exports = mongoose.model('Player', teamSchema);
+module.exports = mongoose.model('lsutigers', teamSchema);
