@@ -38,16 +38,15 @@ teamRoute.delete('/team/:id', jsonParser, function(req, res){
     });
 });
 
-
 // NonCRUD Stuff
-teamRoute.count('/team', function(req, res){
+teamRoute.get('/team', function(req, res){
     lsutigers.count({}, function(err, data){
         if(err) return handleError(err, res);
         res.json({msg: 'success counting players!'});
     });
 });
 
-teamRoute.sort('/team', function(req, res){
+teamRoute.get('/team', function(req, res){
     lsutigers.sort({}, function(err, data){
         if(err) return handleError(err, res);
         res.json({msg: 'you just sorted the team, yo!'});
