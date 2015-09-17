@@ -14,4 +14,4 @@ teamRoute.get('path', function(req, res){
     });
 });
 
-teamRoute.db.collection.count();
+teamRoute.db.collection.count(); // correct this
