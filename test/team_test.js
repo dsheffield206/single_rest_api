@@ -11,8 +11,8 @@ var url = 'localhost:3000/api';
 var lsutigers = require(__dirname + '/../models/team');
 
 describe('the team resource', function(){
-    beforeEach(function(done){
-        mongoose.connection.db.remove(function(err){
+    after(function(done){
+        mongoose.connection.db.dropDatabase(function(err){
             if(err) throw err;
             done();
         });

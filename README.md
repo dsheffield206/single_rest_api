@@ -5,7 +5,7 @@
 + This API adds the Mongo feature of collection count and data validation.
 + We also implement a non CRUD resource xxx.
 + index.js runs the program.
-+ lib/server.js represents the server file.
++ server.js represents the server file.
 + routes/team_routes.js is our router for the API.
 + models/team.js represents the schema for our collection (of LSU players).
 + We are using [MongoDB](https://www.mongodb.org/), plus Mongoose and Body-Parser.
