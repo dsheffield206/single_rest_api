@@ -6,7 +6,8 @@ var userSchema = new mongoose.userSchema({
     username: String,
     basic: {
         username: String,
-        password: String
+        password: String,
+        admin: Boolean
     }
 });
 
