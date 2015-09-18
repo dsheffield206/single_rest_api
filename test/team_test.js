@@ -48,16 +48,15 @@ describe('the team resource', function(){
             }.bind(this));
         });
 
-    it('should update a lsu tiger in team', function(done){
-        chai.request(url)
-            .put('/team/' + this.testTiger._id)
-            .send({teamBody: 'new testingTiger'})
-            .end(function(err, res){
-                expect(err).to.eql(null);
-                expect(res.body.msg).to.eql('your update was a success');
-                done();
-            });
-    });
-
+        it('should update a lsu tiger in team', function(done){
+            chai.request(url)
+                .put('/team/' + this.testTiger._id)
+                .send({teamBody: 'new testingTiger'})
+                .end(function(err, res){
+                    expect(err).to.eql(null);
+                    expect(res.body.msg).to.eql('your update was a success');
+                    done();
+                });
+        });
     });
 });
