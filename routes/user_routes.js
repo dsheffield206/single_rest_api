@@ -73,4 +73,5 @@ ee.on('generateNewToken', function(newUser, req, res){
     newUser.generateToken(function(err, token){
         if(err) return handleError(err, res);
         res.json({success: true, token: token});
+    });
 });
