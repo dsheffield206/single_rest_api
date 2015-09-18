@@ -16,33 +16,33 @@ app.get('/', function(req, res, next){
 });
 
 app.get('/signin', httpBasic, function(req, res){
-    ee.emit('findOne', req, res, user);
+    ee.emit('findOne', user, req, res);
 });
 
-ee.on('findOne', function(req, res, user){
-    User.findOne({'basic.username': req.auth.username}, function(err, user){
+ee.on('findOne', function(user, req, res){
+    user.findOne({'basic.username': req.auth.username}, function(err, user){
         if(err) return handleError(err, res);
         if(!user){
             console.log('could not authenticate ' + req.auth.username);
             return res.status(401).json({success: false, msg: 'could not authenticate'});
         }
-        ee.emit('compareHash', req, res, user);
+        ee.emit('compareHash', user, req, res);
     });
 });
 
-ee.on('compareHash', function(req, res, user){
-    User.compareHash(req.auth.password, function(err, hashRes){
+ee.on('compareHash', function(user, req, res){
+    user.compareHash(req.auth.password, function(err, hashRes){
         if(err) return handleError(err, res);
         if(!hashRes){
             console.log('could not authenticate ' + req.auth.username);
             return res.status(401).json({success: false, msg: 'could not authenticate'});
         }
-        ee.emit('generateToken', req, res, user);
+        ee.emit('generateToken', user, req, res);
     });
 });
 
-ee.on('generateToken', function(req, res, user){
-    User.generateToken(function(err, token){
+ee.on('generateToken', function(user, req, res){
+    user.generateToken(function(err, token){
         if(err) return handleError(err, res);
         res.json({success: true, token: token});
     });
