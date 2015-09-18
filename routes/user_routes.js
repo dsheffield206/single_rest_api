@@ -22,7 +22,7 @@ app.get('/signin', httpBasic, function(req, res){
 ee.on('findOne', function(req, res, user){
     User.findOne({'basic.username': req.auth.username}, function(err, user){
         if(err) return handleError(err, res);
-        if(!User){
+        if(!user){
             console.log('could not authenticate ' + req.auth.username);
             return res.status(401).json({success: false, msg: 'could not authenticate'});
         }
