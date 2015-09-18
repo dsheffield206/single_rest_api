@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 var eat = require('eat');
 
-var userSchema = new mongoose.userSchema({
+var userSchema = new mongoose.Schema({
     username: String,
     basic: {
         username: String,

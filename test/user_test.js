@@ -86,5 +86,5 @@ describe('user auth', function(){
                 done();
             });
         });
-    }):
+    });
 });
