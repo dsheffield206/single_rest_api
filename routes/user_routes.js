@@ -26,6 +26,7 @@ ee.on('findOne', function(req, res, user){
             console.log('could not authenticate ' + req.auth.username);
             return res.status(401).json({success: false, msg: 'could not authenticate'});
         }
+        console.log('findOne ee working');
         ee.emit('compareHash', req, res, user);
     });
 });
@@ -37,6 +38,7 @@ ee.on('compareHash', function(req, res, user){
             console.log('could not authenticate ' + req.auth.username);
             return res.status(401).json({success: false, msg: 'could not authenticate'});
         }
+        console.log('compareHash ee working');
         ee.emit('generateToken', req, res, user);
     });
 });
@@ -44,6 +46,7 @@ ee.on('compareHash', function(req, res, user){
 ee.on('generateToken', function(req, res, user){
     User.generateToken(function(err, token){
         if(err) return handleError(err, res);
+        console.log('generateToken working');
         res.json({success: true, token: token});
     });
 });
@@ -73,4 +76,5 @@ ee.on('generateNewToken', function(newUser, req, res){
     newUser.generateToken(function(err, token){
         if(err) return handleError(err, res);
         res.json({success: true, token: token});
+    });
 });
