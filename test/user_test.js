@@ -33,7 +33,7 @@ describe('user auth', function(){
     });
 
     it('should create a new user', function(done){
-        chai.request('localhost:3000/api')
+        chai.request('localhost:3000/api/auth')
             .post('/signup')
             .send({username: 'test', password: 'football123'})
             .end(function(err, res){
@@ -62,9 +62,9 @@ describe('user auth', function(){
         });
 
         it('should be able to signin existing user', function(done){
-            chai.request('localhost:3000/api')
+            chai.request('localhost:3000/api/auth')
                 .get('/signin')
-                .send({username: 'test', password: 'football123'})
+                .auth('test', 'football123')
                 .end(function(err, res){
                     expect(err).to.eql(null);
                     expect(res.body.token).to.have.length.above(0);
@@ -75,14 +75,11 @@ describe('user auth', function(){
         it('should authentice users with eat', function(done){
             var token = this.token;
             var req = {
-                headers: {
-                    token: token
-                }
+                headers: {token: token}
             };
 
             eatAuth(req, {}, function(){
-                expect(req.body.username).to.eql('test');
-                expect(res.body.token).to.have.length.above(0);
+                expect(req.user.username).to.eql('test');
                 done();
             });
         });
