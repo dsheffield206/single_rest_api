@@ -7,27 +7,27 @@ var EventEmitter = require('events').EventEmitter;
 var ee = new EventEmitter();
 var user;
 
-var app = module.exports = exports = express.Router();
+var userRouter = module.exports = exports = express.Router();
 
-app.get('/', function(req, res, next){
+userRouter.get('/', function(req, res, next){
     if(!req.auth.username){
       redirect: '/signin'
     }
 });
 
-app.get('/signin', httpBasic, function(req, res){
+userRouter.get('/signin', httpBasic, function(req, res){
     ee.emit('findOne', user, req, res);
 });
 
 ee.on('findOne', function(user, req, res){
-    user.findOne({'basic.username': req.auth.username}, function(err, user){
+    User.findOne({'basic.username': req.auth.username}, function(err, user){
         if(err) return handleError(err, res);
         if(!user){
             console.log('could not authenticate ' + req.auth.username);
             return res.status(401).json({success: false, msg: 'could not authenticate'});
         }
         console.log('findOne ee working');
-        ee.emit('compareHash', req, res, user);
+        ee.emit('compareHash', user, req, res);
     });
 });
 
@@ -39,7 +39,7 @@ ee.on('compareHash', function(user, req, res){
             return res.status(401).json({success: false, msg: 'could not authenticate'});
         }
         console.log('compareHash ee working');
-        ee.emit('generateToken', req, res, user);
+        ee.emit('generateToken', user, req, res);
     });
 });
 
@@ -51,7 +51,7 @@ ee.on('generateToken', function(user, req, res){
     });
 });
 
-app.post('/signup', jsonParser, function(req, res){
+userRouter.post('/signup', jsonParser, function(req, res){
     var newUser = new User();
     newUser.basic.username = req.body.username;
     newUser.username = req.body.username;
@@ -68,7 +68,7 @@ ee.on('generateHash', function(newUser, req, res){
 ee.on('save', function(newUser, req, res){
     newUser.save(function(err, data){
         if(err) return handleError(err, data);
-        ee.emit('generateToken', newUser, req, res);
+        ee.emit('generateNewToken', newUser, req, res);
     });
 });
 

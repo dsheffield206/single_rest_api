@@ -3,9 +3,9 @@ var bcrypt = require('bcrypt');
 var eat = require('eat');
 
 var userSchema = new mongoose.Schema({
-    username: String,
+    username: {type: String, unique: true},
     basic: {
-        username: String,
+        username: {type: String, unique: true},
         password: String,
         admin: Boolean
     }
@@ -24,7 +24,7 @@ userSchema.methods.compareHash = function(password, callback){
 };
 
 userSchema.methods.generateToken = function(callback){
-    eat.encode({id: this._id}, precess.env.APP_SECRET, callback);
+    eat.encode({id: this._id}, process.env.APP_SECRET, callback);
 };
 
 module.exports = mongoose.model('User', userSchema);

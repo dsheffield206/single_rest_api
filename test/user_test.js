@@ -2,9 +2,9 @@ var chai = require('chai');
 var chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 var expect = chai.expect;
+var mongoose = require('mongoose');
 process.env.MONGO_URL = 'mongodb://localhost/team_test';
 require(__dirname + '/../server');
-var mongoose = require('mongoose');
 var eatAuth = require(__dirname + '/../lib/eat_auth');
 var httpBasic = require(__dirname + '/../lib/http_basic');
 var User = require(__dirname + '/../models/user');
@@ -33,7 +33,7 @@ describe('user auth', function(){
     });
 
     it('should create a new user', function(done){
-        chai.request('localhost:3000/api')
+        chai.request('localhost:3000/api/auth')
             .post('/signup')
             .send({username: 'test', password: 'football123'})
             .end(function(err, res){
@@ -62,7 +62,7 @@ describe('user auth', function(){
         });
 
         it('should be able to signin existing user', function(done){
-            chai.request('localhost:3000/api')
+            chai.request('localhost:3000/api/auth')
                 .get('/signin')
                 .auth('test', 'football123')
                 .end(function(err, res){
@@ -75,14 +75,11 @@ describe('user auth', function(){
         it('should authentice users with eat', function(done){
             var token = this.token;
             var req = {
-                headers: {
-                    token: token
-                }
+                headers: {token: token}
             };
 
             eatAuth(req, {}, function(){
                 expect(req.user.username).to.eql('test');
-                expect(res.body.token).to.have.length.above(0);
                 done();
             });
         });
