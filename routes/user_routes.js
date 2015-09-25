@@ -20,26 +20,26 @@ app.get('/signin', httpBasic, function(req, res){
 });
 
 ee.on('findOne', function(user, req, res){
-    user.findOne({'basic.username': req.auth.username}, function(err, user){
+    user.findOne({'basic.username': req.body.username}, function(err, user){
         if(err) return handleError(err, res);
         if(!user){
-            console.log('could not authenticate ' + req.auth.username);
+            console.log('could not authenticate ' + req.body.username);
             return res.status(401).json({success: false, msg: 'could not authenticate'});
         }
         console.log('findOne ee working');
-        ee.emit('compareHash', req, res, user);
+        ee.emit('compareHash', user, req, res);
     });
 });
 
 ee.on('compareHash', function(user, req, res){
-    user.compareHash(req.auth.password, function(err, hashRes){
+    user.compareHash(req.body.password, function(err, hashRes){
         if(err) return handleError(err, res);
         if(!hashRes){
-            console.log('could not authenticate ' + req.auth.username);
+            console.log('could not authenticate ' + req.body.username);
             return res.status(401).json({success: false, msg: 'could not authenticate'});
         }
         console.log('compareHash ee working');
-        ee.emit('generateToken', req, res, user);
+        ee.emit('generateToken', user, req, res);
     });
 });
 
