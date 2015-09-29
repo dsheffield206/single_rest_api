@@ -28,3 +28,4 @@
 + We also added [jshint](http://jshint.com/) to our gulpfile.js for linting.
 + server.js was updated to reflect the static build.
 + package.json shows our updated dev dependencies for Part 3.
++ Adding Dave Gamache's [Skeleton CSS Template](http://getskeleton.com/) for basic responsive styling.
