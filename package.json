@@ -1,7 +1,7 @@
 {
   "name": "single_rest_api",
   "version": "1.0.0",
-  "description": "Single Resource REST API",
+  "description": "REST API with auth and adding client side.",
   "main": "index.js",
   "directories": {
     "lib": "lib",
@@ -24,6 +24,8 @@
     "chai": "^3.2.0",
     "chai-http": "^1.0.0",
     "gulp": "^3.9.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-watch": "^4.3.5",
     "mocha": "^2.3.2",
     "webpack-stream": "^2.1.1"
   },
