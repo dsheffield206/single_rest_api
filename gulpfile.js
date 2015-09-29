@@ -2,9 +2,10 @@ var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var watch = require('gulp-watch');
 var webpack = require('webpack-stream');
+var watchFiles = ['app/**/*.html', 'app/**/*.js', 'lib/**/*.js', 'models/**/*.js', 'routes/**/*.js', 'test/**/*.js', 'gulpfile.js', 'index.js', 'server.js'];
 
 gulp.task('jshint', function(){
-    return gulp.src(['lib/**/*.js', 'models/**/*.js', 'routes/**/*.js', 'test/**/*.js', 'gulpfile.js', 'index.js', 'server.js'])
+    return gulp.src(watchFiles)
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
@@ -16,7 +17,7 @@ gulp.task('webpack:dev', function(){
                 filename: 'bundle.js'
             }
         }))
-        .pipe(watch('./app/js/client.js'))
+        .pipe(watch('./app/**/*.js'))
         .pipe(gulp.dest('build/'));
 });
 
