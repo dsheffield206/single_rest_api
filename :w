@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
+var watch = require('gulp-watch');
 var webpack = require('webpack-stream');
 var watchFiles = ['app/**/*.html', 'app/**/*.js', 'lib/**/*.js', 'models/**/*.js', 'routes/**/*.js', 'test/**/*.js', 'gulpfile.js', 'index.js', 'server.js'];
 var paths = {
@@ -19,16 +20,18 @@ gulp.task('webpack:dev', function(){
                 filename: 'bundle.js'
             }
         }))
+        .pipe(watch('./app/**/*.js'))
         .pipe(gulp.dest('build/'));
 });
 
 
 gulp.task('staticfiles:dev', function(){
     return gulp.src('./app/**/*.html')
+        .pipe(watch('./app/**/*.html'))
         .pipe(gulp.dest('build/'));
-});
+}
 
-gulp.task('watch:build', function(){
+gulp.task('watch:build', function(cb){
     gulp.watch(paths.client, ['build:dev']);
 });
 
