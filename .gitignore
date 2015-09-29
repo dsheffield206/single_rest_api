@@ -5,6 +5,7 @@ node_modules
 **/build
 **/*.log
 **/*.sw?
+**/*:w
 .DS_Store
 
 
