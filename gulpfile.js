@@ -7,7 +7,7 @@ var paths = {
 };
 
 gulp.task('jshint', function(){
-    return gulp.src(paths)
+    return gulp.src(paths.server, paths.client)
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
@@ -21,8 +21,6 @@ gulp.task('webpack:dev', function(){
         }))
         .pipe(gulp.dest('build/'));
 });
-
-
 
 gulp.task('staticfiles:dev', function(){
     return gulp.src(['./app/**/*.html', './app/css/**/*css'])
