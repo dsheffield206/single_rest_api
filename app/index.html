@@ -22,7 +22,7 @@
         <span data-ng-if="!tiger.editing">{{tiger.teamBody}}
           <button data-ng-click="tiger.editing = true">Edit Tiger</button>
           <button data-ng-click="removeTiger(tiger)">Delete</button>
-          <form data-ng-if="tiger.editing" name="{{'tigerForm', + tiger._id}}" data-ng-submit="updateTiger(tiger)">
+          <form data-ng-if="tiger.editing" name="{{'tigerForm' + tiger._id}}" data-ng-submit="updateTiger(tiger)">
             <input type="text" data-ng-model="tiger.teamBody">
             <button type="submit">Save Changs</button>
             <button data-ng-if="!tiger.editing" data-ng-click="tiger.editing = false">Cancel</button>

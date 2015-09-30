@@ -1,5 +1,7 @@
 module.exports = function(app){
     app.controller('TeamController', ['$scope', '$http', function($scope, $http){
+        $scope.lsugreet = 'This REST API updates a database of LSU Tigers football players. GEAUX TIGERS!!'
+
         $scope.team = [];
 
         $scope.getAll = function(){
@@ -23,7 +25,7 @@ module.exports = function(app){
 
         $scope.updateTiger = function(tiger){
             tiger.status = 'pending';
-            $http.put('/api/team' + tiger._id, tiger)
+            $http.put('/api/team/' + tiger._id , tiger)
                 .then(function(res){
                     delete tiger.status;
                     tiger.editing = false;
@@ -36,7 +38,7 @@ module.exports = function(app){
 
         $scope.removeTiger = function(tiger){
             tiger.status = 'pending';
-            $http.delete('/api/team' + tiger._id)
+            $http.delete('/api/team/' + tiger._id)
                 .then(function(){
                     $scope.team.splice($scope.team.indexOf(tiger), 1);
                 }, function(res){
