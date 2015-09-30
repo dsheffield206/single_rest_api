@@ -22,8 +22,10 @@ gulp.task('webpack:dev', function(){
         .pipe(gulp.dest('build/'));
 });
 
+
+
 gulp.task('staticfiles:dev', function(){
-    return gulp.src('./app/**/*.html')
+    return gulp.src(['./app/**/*.html', './app/css/**/*css'])
         .pipe(gulp.dest('build/'));
 });
 
