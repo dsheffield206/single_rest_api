@@ -9,8 +9,27 @@
   </head>
   <body data-ng-app="teamApp">
     <main data-ng-controller="teamController">
-      <h2>{{lsugreet}}</h2>
-      <input type="text" data-ng-model="lsuinput">
+      <h1>{{lsugreet}}</h1>
+      <form name="newTigerForm" data-ng-submit="createTiger(newlsutigers)">
+        <label for="teamBody">New LSU Tiger:
+          <input type="text" data-ng-disabled="newlsutigers.teamBody">
+        </label>
+        <button type="submit" data-ng-disabled="newTigerForm.$invalid">Create New Tiger</button>
+      </form>
+
+      <ul id="tigerslist">
+        <li class="{{tiger.status}}" data-ng-repeat="tiger in lsutigers">
+        <span data-ng-if="!tiger.editing">{{tiger.teamBody}}
+          <button data-ng-click="tiger.editing = true">Edit Tiger</button>
+          <button data-ng-click="removeTiger(tiger)">Delete</button>
+          <form data-ng-if="tiger.editing" name="{{'tigerForm', + tiger._id}}" data-ng-submit="updateTiger(tiger)">
+            <input type="text" data-ng-model="tiger.teamBody">
+            <button type="submit">Save Changs</button>
+            <button data-ng-if="!tiger.editing" data-ng-click="tiger.editing = false">Cancel</button>
+          </form>
+        </span>
+        </li>
+      </ul>
     </main>
     <script src="bundle.js"></script>
   </body>
