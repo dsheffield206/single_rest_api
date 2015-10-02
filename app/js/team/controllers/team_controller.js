@@ -4,6 +4,9 @@ module.exports = function(app){
 
         $scope.team = [];
         $scope.newPlayer = {};
+        $scope.book =[];
+
+        $scope.book.push({'name': 'John'}, {'name': 'Bob'});
 
         $scope.getAll = function(){
             $http.get('/api/team')
@@ -50,10 +53,10 @@ module.exports = function(app){
             tiger.high_school = tiger.oldHighSchool;
         };
 
-        $scope.remove = function(tiger){
-            $http.delete('/api/team/' + tiger._id)
-                .then(function(){
-                    $scope.team.splice($scope.team.indexOf(tiger), 1);
+        $scope.remove = function(tig_id){
+            $http.delete('/api/team/' + tig_id)
+                .then(function(res){
+                    $scope.team.splice($scope.team.indexOf(tig_id), 1);
                 }, function(res){
                     console.log('DELETE error with ' + res);
                 });

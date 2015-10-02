@@ -41,7 +41,7 @@ gulp.task('staticfiles:dev', function(){
 
 gulp.task('servertests', function(){
     return gulp.src('./test/api_test/**/*test.js')
-        .pipe(mocha({reporter: 'nyan'}));
+        .pipe(mocha({reporter: 'nyan'}))
         .once('error', function(err){
             console.log('servertests had this error ' + err);
             process.exit(1);
