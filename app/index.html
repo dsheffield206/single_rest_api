@@ -10,10 +10,10 @@
   <body data-ng-app="teamApp">
     <main data-ng-controller="TeamController" data-ng-init="getAll()">
       <h2>{{lsugreet}}</h2>
-      <form name="newTigerForm" data-ng-submit="create(newlsutigers)">
-        <label>Player Name:</label><input type="text" data-ng-model="newlsutigers.name">
-        <label>Position:</label><input type="text" data-ng-model="newlsutigers.position">
-        <label>High School:</label><input type="text" data-ng-model="newlsutigers.high_school">
+      <form name="newTigerForm" data-ng-submit="create(newPlayer)">
+        <label>Player Name:</label><input type="text" data-ng-model="newPlayer.name">
+        <label>Position:</label><input type="text" data-ng-model="newPlayer.position">
+        <label>High School:</label><input type="text" data-ng-model="newPlayer.high_school">
         <button type="submit" data-ng-disabled="newTigerForm.$invalid">Create Player</button>
       </form>
 
@@ -26,7 +26,7 @@
             <td>User Submit</td>
           </tr>
         </thead>
-          <tr data-ng-repeat="tiger in lsutigers">
+          <tr data-ng-repeat="tiger in team">
             <td data-ng-if="!tiger.editing">{{tiger.name}}</td>
             <td data-ng-if="!tiger.editing">{{tiger.position}}</td>
             <td data-ng-if="!tiger.editing">{{tiger.high_school}}</td>
@@ -37,7 +37,7 @@
               <button data-ng-if="!tiger.editing" data-ng-click="edit(tiger)">Edit</button>
               <button data-ng-if="tiger.editing" data-ng-click="update(tiger)">Save</button>
               <button data-ng-if="tiger.editing" data-ng-click="cancel(tiger)">Cancel</button>
-              <button data-ng-click="remove(tiger._id">Delete</button>
+              <button data-ng-click="remove(tiger._id)">Delete</button>
             </td>
           </tr>
       </table>

@@ -3,6 +3,7 @@ module.exports = function(app){
         $scope.lsugreet = 'This REST API updates a database of LSU Tigers football players. Update or create your favorite LSU player! GEAUX TIGERS!!'
 
         $scope.team = [];
+        $scope.newPlayer = {};
 
         $scope.getAll = function(){
             $http.get('/api/team')
@@ -18,7 +19,7 @@ module.exports = function(app){
                 .then(function(res){
                     $scope.tiger = '';
                     $scope.getAll();
-                    $scope.newlsutigers = null;
+                    $scope.newPlayer = null;
                 }, function(res){
                     console.log('POST error with ' + res);
                 });
