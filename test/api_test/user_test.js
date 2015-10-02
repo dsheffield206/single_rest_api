@@ -4,10 +4,10 @@ chai.use(chaiHttp);
 var expect = chai.expect;
 var mongoose = require('mongoose');
 process.env.MONGO_URL = 'mongodb://localhost/team_test';
-require(__dirname + '/../server');
-var eatAuth = require(__dirname + '/../lib/eat_auth');
-var httpBasic = require(__dirname + '/../lib/http_basic');
-var User = require(__dirname + '/../models/user');
+require(__dirname + '/../../server');
+var eatAuth = require(__dirname + '/../../lib/eat_auth');
+var httpBasic = require(__dirname + '/../../lib/http_basic');
+var User = require(__dirname + '/../../models/user');
 
 describe('httpBasic', function(){
     it('should parse basic http auth', function(){

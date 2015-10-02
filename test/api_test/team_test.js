@@ -5,10 +5,10 @@ var chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 var expect = chai.expect;
 process.env.MONGO_URL = 'mongodb://localhost/team_test';
-require(__dirname + '/../server.js');
+require(__dirname + '/../../server.js');
 var mongoose = require('mongoose');
 var url = 'localhost:3000/api';
-var lsutigers = require(__dirname + '/../models/team');
+var lsutigers = require(__dirname + '/../../models/team');
 
 describe('the team resource', function(){
     after(function(done){
