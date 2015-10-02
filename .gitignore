@@ -1,6 +1,5 @@
 node_modules
 /test/.testdata.md
-karma.conf.js
 **/*.env
 **/db/
 **/build

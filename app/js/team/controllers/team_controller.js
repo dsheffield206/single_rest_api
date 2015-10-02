@@ -4,9 +4,6 @@ module.exports = function(app){
 
         $scope.team = [];
         $scope.newPlayer = {};
-        $scope.book =[];
-
-        $scope.book.push({'name': 'John'}, {'name': 'Bob'});
 
         $scope.getAll = function(){
             $http.get('/api/team')

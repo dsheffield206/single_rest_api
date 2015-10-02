@@ -33,7 +33,7 @@ describe('team controller', function(){
         });
 
         it('should make a GET request when getAll() is called', function(){
-            $httpBackend.expectGET('/api/team').respond(200, [teamBody: 'test tiger']);
+            $httpBackend.expectGET('/api/team').respond(200, {teamBody: 'test tiger'});
             $scope.getAll();
             $httpBackend.flush();
             expect($scope.team[0].teamBody).toBe('test tiger');
