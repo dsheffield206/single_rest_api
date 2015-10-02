@@ -37,7 +37,7 @@ teamRouter.put('/:id', jsonParser, function(req, res){
 
 teamRouter.delete('/:id', jsonParser, function(req, res){
     lsutigers.find({_id: req.params.id}, function(err, data){
-        if(err) handleError(err, res);
+        if(err) return handleError(err, res);
 
         if(data.length){
             lsutigers.remove({_id: req.params.id}, function(err){
