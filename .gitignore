@@ -1,5 +1,6 @@
 node_modules
 /test/.testdata.md
+/test/client/**/*.js
 **/*.env
 **/db/
 **/build
