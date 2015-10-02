@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(1);
+	 __webpack_require__(1);
 
 
 /***/ },
@@ -60,9 +60,8 @@
 	    var $scope;
 
 	    beforeEach(angular.mock.module('teamApp'));
-
 	    beforeEach(angular.mock.inject(function($rootScope, $controller){
-	        $scope = $rootScope.new();
+	        $scope = $rootScope.$new();
 	        $ControllerConstructor = $controller;
 	    }));
 
@@ -70,7 +69,7 @@
 	        var controller = new $ControllerConstructor('TeamController', {$scope: $scope});
 	        expect(typeof $scope).toBe('object');
 	        expect(typeof controller).toBe('object');
-	        expect(Array.isArray($scope.tiger)).toBe(true);
+	        expect(Array.isArray($scope.team)).toBe(true);
 	    });
 
 	    describe('REST requests', function(){

@@ -7,9 +7,8 @@ describe('team controller', function(){
     var $scope;
 
     beforeEach(angular.mock.module('teamApp'));
-
     beforeEach(angular.mock.inject(function($rootScope, $controller){
-        $scope = $rootScope.new();
+        $scope = $rootScope.$new();
         $ControllerConstructor = $controller;
     }));
 
@@ -17,7 +16,7 @@ describe('team controller', function(){
         var controller = new $ControllerConstructor('TeamController', {$scope: $scope});
         expect(typeof $scope).toBe('object');
         expect(typeof controller).toBe('object');
-        expect(Array.isArray($scope.tiger)).toBe(true);
+        expect(Array.isArray($scope.team)).toBe(true);
     });
 
     describe('REST requests', function(){
