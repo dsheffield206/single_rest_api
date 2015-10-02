@@ -1,5 +1,3 @@
-'use strict';
-
 var lsutigers = require(__dirname + '/../models/team');
 var express = require('express');
 var jsonParser = require('body-parser').json();

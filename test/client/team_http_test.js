@@ -42,10 +42,10 @@ describe('team controller', function(){
         it('should be able to create a new LSU player', function(){
             $httpBackend.expectPOST('/api/team', {teamBody: 'send test tiger'}).respond(200, {_id: 1, teamBody: 'test tiger'});
             $scope.newPlayer = {teamBody: 'GeauxTiger'};
-            $scope.create({teamBody: 'sent test tiger'});
+            $scope.create({teamBody: 'send test tiger'});
             $httpBackend.flush();
-            expect.($scope.team[0].teamBody).toBe('test tiger');
-            expect.($scope.newPlayer).toBe(null);
+            expect($scope.team[0].teamBody).toBe('test tiger');
+            expect($scope.newPlayer).toBe(null);
         });
     });
 });
