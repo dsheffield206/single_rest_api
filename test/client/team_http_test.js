@@ -7,9 +7,8 @@ describe('team controller', function(){
     var $scope;
 
     beforeEach(angular.mock.module('teamApp'));
-
     beforeEach(angular.mock.inject(function($rootScope, $controller){
-        $scope = $rootScope.new();
+        $scope = $rootScope.$new();
         $ControllerConstructor = $controller;
     }));
 
@@ -17,7 +16,7 @@ describe('team controller', function(){
         var controller = new $ControllerConstructor('TeamController', {$scope: $scope});
         expect(typeof $scope).toBe('object');
         expect(typeof controller).toBe('object');
-        expect(Array.isArray($scope.tiger)).toBe(true);
+        expect(Array.isArray($scope.team)).toBe(true);
     });
 
     describe('REST requests', function(){
@@ -33,7 +32,7 @@ describe('team controller', function(){
         });
 
         it('should make a GET request when getAll() is called', function(){
-            $httpBackend.expectGET('/api/team').respond(200, [teamBody: 'test tiger']);
+            $httpBackend.expectGET('/api/team').respond(200, {teamBody: 'test tiger'});
             $scope.getAll();
             $httpBackend.flush();
             expect($scope.team[0].teamBody).toBe('test tiger');
@@ -42,10 +41,10 @@ describe('team controller', function(){
         it('should be able to create a new LSU player', function(){
             $httpBackend.expectPOST('/api/team', {teamBody: 'send test tiger'}).respond(200, {_id: 1, teamBody: 'test tiger'});
             $scope.newPlayer = {teamBody: 'GeauxTiger'};
-            $scope.create({teamBody: 'sent test tiger'});
+            $scope.create({teamBody: 'send test tiger'});
             $httpBackend.flush();
-            expect.($scope.team[0].teamBody).toBe('test tiger');
-            expect.($scope.newPlayer).toBe(null);
+            expect($scope.team[0].teamBody).toBe('test tiger');
+            expect($scope.newPlayer).toBe(null);
         });
     });
 });

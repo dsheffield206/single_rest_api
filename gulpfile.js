@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var mocha = require('gulp-mocha');
-var Karma = require('karma').server;
+var Karma = require('karma').Server;
 var webpack = require('webpack-stream');
 var paths = {
    server: ['lib/**/*.js', 'models/**/*.js', 'routes/**/*.js', 'test/**/*.js', 'gulpfile.js', 'index.js', 'server.js'],

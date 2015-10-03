@@ -1,1 +1,1 @@
-require(__dirname + '/team_http_test.js');
+ require(__dirname + '/team_http_test.js');
