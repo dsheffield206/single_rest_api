@@ -6,7 +6,7 @@ module.exports = function(app){
         $scope.newPlayer = {};
 
         $scope.getAll = function(){
-            $http.get('/api/team')
+            $http.get('/api/team/')
                 .then(function(res){
                     $scope.team = res.data;
                 }, function(res){
@@ -15,7 +15,7 @@ module.exports = function(app){
         };
 
         $scope.create = function(tiger){
-            $http.post('/api/team', tiger)
+            $http.post('/api/team/', tiger)
                 .then(function(res){
                     $scope.tiger = '';
                     $scope.getAll();
