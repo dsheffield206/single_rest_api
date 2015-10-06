@@ -85,19 +85,41 @@
 	        });
 
 	        it('should make a GET request when getAll() is called', function(){
-	            $httpBackend.expectGET('/api/team/').respond(200, {teamBody: 'test tiger'});
+	            // var player = {teamBody: 'test tiger', _id: 1, editing: true};
+
+	            $httpBackend.expectGET('/api/team/')
+	                .respond([{teamBody: 'test tiger'},{teamBody: 'test stars'}]);
 	            $scope.getAll();
 	            $httpBackend.flush();
 	            expect($scope.team[0].teamBody).toBe('test tiger');
 	        });
 
 	        it('should be able to create a new LSU player', function(){
-	            $httpBackend.expectPOST('/api/team/', {teamBody: 'send test tiger'}).respond(200, {_id: 1, teamBody: 'test tiger'});
-	            $scope.newPlayer = {teamBody: 'GeauxTiger'};
-	            $scope.create({teamBody: 'send test tiger'});
+	            $httpBackend.expectPOST('/api/team/', {teamBody: 'send test tiger'})
+	                .respond(200, {_id: 1, teamBody: 'test tiger'});
+	            $scope.newPlayer ={teamBody: 'send test tiger'};
+	            $scope.create($scope.newPlayer);
 	            $httpBackend.flush();
 	            expect($scope.team[0].teamBody).toBe('test tiger');
 	            expect($scope.newPlayer).toBe(null);
+	        });
+
+	        it('should be able to update a player', function(){
+	            var player = {teamBody: 'test tiger', _id: 1, editing: true};
+	            $httpBackend.expectPUT('/api/team/1', player).respond(200);
+	            $scope.update(player);
+	            $httpBackend.flush();
+	            expect(player.editing).toBe(false);
+	        });
+
+	        it('should be able to delete a player', function(){
+	            var player = {teamBody: 'test tiger', _id: 1};
+	            $scope.team = [player];
+	            $httpBackend.expectDELETE('/api/team/1').respond(200);
+	            $scope.remove(player);
+	            $httpBackend.flush();
+	            expect($scope.team.length).toBe(0);
+	            expect($scope.team.indexOf(player)).toBe(-1);
 	        });
 	    });
 	});
@@ -28977,8 +28999,7 @@
 	        $scope.create = function(tiger){
 	            $http.post('/api/team/', tiger)
 	                .then(function(res){
-	                    $scope.tiger = '';
-	                    $scope.getAll();
+	                    $scope.team.push(res.data);
 	                    $scope.newPlayer = null;
 	                }, function(res){
 	                    console.log('POST error with ' + res);
@@ -28988,10 +29009,11 @@
 	        $scope.update = function(tiger){
 	            $http.put('/api/team/' + tiger._id , tiger)
 	                .then(function(res){
-	                    $scope.getAll();
+	                    delete tiger.status;
 	                    tiger.editing = false;
 	                }, function(res){
 	                    console.log('PUT error with ' + res);
+	                    tiger.status = 'failed';
 	                    tiger.editing = false;
 	                });
 	        };
@@ -29010,11 +29032,12 @@
 	            tiger.high_school = tiger.oldHighSchool;
 	        };
 
-	        $scope.remove = function(tig_id){
-	            $http.delete('/api/team/' + tig_id)
+	        $scope.remove = function(tiger){
+	            $http.delete('/api/team/' + tiger._id)
 	                .then(function(res){
-	                    $scope.team.splice($scope.team.indexOf(tig_id), 1);
+	                    $scope.team.splice($scope.team.indexOf(tiger), 1);
 	                }, function(res){
+	                    tiger.status = 'failed';
 	                    console.log('DELETE error with ' + res);
 	                });
 	        };

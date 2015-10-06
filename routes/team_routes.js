@@ -20,6 +20,7 @@ teamRouter.post('/', jsonParser, function(req, res){
     if(newlsutigers.name)
         newlsutigers.save(function(err, data){
             if(err) return handleError(err, res);
+            console.log(data);
             res.json(data);
         });
 });
