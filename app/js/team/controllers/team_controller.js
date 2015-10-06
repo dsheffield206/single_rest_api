@@ -6,7 +6,7 @@ module.exports = function(app){
         $scope.newPlayer = {};
 
         $scope.getAll = function(){
-            $http.get('/api/team')
+            $http.get('/api/team/')
                 .then(function(res){
                     $scope.team = res.data;
                 }, function(res){
@@ -15,10 +15,9 @@ module.exports = function(app){
         };
 
         $scope.create = function(tiger){
-            $http.post('/api/team', tiger)
+            $http.post('/api/team/', tiger)
                 .then(function(res){
-                    $scope.tiger = '';
-                    $scope.getAll();
+                    $scope.team.push(res.data);
                     $scope.newPlayer = null;
                 }, function(res){
                     console.log('POST error with ' + res);
@@ -28,10 +27,11 @@ module.exports = function(app){
         $scope.update = function(tiger){
             $http.put('/api/team/' + tiger._id , tiger)
                 .then(function(res){
-                    $scope.getAll();
+                    delete tiger.status;
                     tiger.editing = false;
                 }, function(res){
                     console.log('PUT error with ' + res);
+                    tiger.status = 'failed';
                     tiger.editing = false;
                 });
         };
@@ -50,11 +50,12 @@ module.exports = function(app){
             tiger.high_school = tiger.oldHighSchool;
         };
 
-        $scope.remove = function(tig_id){
-            $http.delete('/api/team/' + tig_id)
+        $scope.remove = function(tiger){
+            $http.delete('/api/team/' + tiger._id)
                 .then(function(res){
-                    $scope.team.splice($scope.team.indexOf(tig_id), 1);
+                    $scope.team.splice($scope.team.indexOf(tiger), 1);
                 }, function(res){
+                    tiger.status = 'failed';
                     console.log('DELETE error with ' + res);
                 });
         };
