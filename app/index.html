@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Google Tag Manager -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>LSU Tigers App</title>
     <link href="style.css" type="text/css" rel="stylesheet"/>
   </head>
   <body data-ng-app="teamApp">
+    <!-- Google Tag Manager -->
     <main data-ng-controller="TeamController" data-ng-init="getAll()">
       <h2>{{lsugreet}}</h2>
+
       <form name="newTigerForm" data-ng-submit="create(newPlayer)">
         <label>Player Name:</label><input type="text" data-ng-model="newPlayer.name">
         <label>Position:</label><input type="text" data-ng-model="newPlayer.position">
         <label>High School:</label><input type="text" data-ng-model="newPlayer.high_school">
         <button type="submit" data-ng-disabled="newTigerForm.$invalid">Create Player</button>
+        <div data-team-form
+             data-ng-if="tiger.editing"
+             data-label-text="Edit Player Note"
+             data-button-text="Save Changes"
+             data-tiger="newPlayer"
+             data-save="create(newPlayer)">
+        </div>
       </form>
+
       <table>
         <thead>
           <tr>
@@ -38,8 +47,16 @@
               <button data-ng-if="tiger.editing" data-ng-click="cancel(tiger)">Cancel</button>
               <button data-ng-click="remove(tiger._id)">Delete</button>
             </td>
+            <td data-team-form
+                data-ng-if="tiger.editing"
+                data-label-text="Edit Player Note"
+                data-button-text="Save Changes"
+                data-tiger="tiger"
+                data-save="update(tiger)">
+            </td>
           </tr>
       </table>
+
     </main>
     <script src="bundle.js"></script>
   </body>

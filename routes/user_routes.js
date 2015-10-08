@@ -11,7 +11,7 @@ var userRouter = module.exports = exports = express.Router();
 
 userRouter.get('/', function(req, res, next){
     if(!req.auth.username){
-      redirect: '/signin'
+      redirect: '/signin';
     }
 });
 

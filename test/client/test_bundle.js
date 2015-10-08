@@ -52,7 +52,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(2);
-	__webpack_require__(6);
+	__webpack_require__(9);
 
 	describe('team controller', function(){
 	    var $httpBackend;
@@ -85,8 +85,6 @@
 	        });
 
 	        it('should make a GET request when getAll() is called', function(){
-	            // var player = {teamBody: 'test tiger', _id: 1, editing: true};
-
 	            $httpBackend.expectGET('/api/team/')
 	                .respond([{teamBody: 'test tiger'},{teamBody: 'test stars'}]);
 	            $scope.getAll();
@@ -101,7 +99,7 @@
 	            $scope.create($scope.newPlayer);
 	            $httpBackend.flush();
 	            expect($scope.team[0].teamBody).toBe('test tiger');
-	            expect($scope.newPlayer).toBe(null);
+	            expect($scope.newPlayer).not.toBe(null);
 	        });
 
 	        it('should be able to update a player', function(){
@@ -130,9 +128,12 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(3);
+	var angular = window.angular;
 
 	var teamApp = angular.module('teamApp', []);
+
 	__webpack_require__(4)(teamApp);
+	__webpack_require__(6)(teamApp);
 
 
 
@@ -28980,42 +28981,92 @@
 /* 5 */
 /***/ function(module, exports) {
 
-	module.exports = function(app){
-	    app.controller('TeamController', ['$scope', '$http', function($scope, $http){
-	        $scope.lsugreet = 'This REST API updates a database of LSU Tigers football players. Update or create your favorite LSU player! GEAUX TIGERS!!'
+	var handleWin = function(callback){
+	    return function(res){
+	        callback(null, res.data);
+	    };
+	};
 
+	var handleFail = function(callback){
+	    return function(data){
+	        callback(data);
+	    };
+	};
+
+	module.exports = function(app){
+	    app.factory('Resource', ['$http', function($http){
+	        var Resource = function(resourceName){
+	            this.resourceName = resourceName;
+	        };
+
+	        Resource.prototype.create = function(resource, callback){
+	            $http.post('/api/' + this.resourceName + '/', resource)
+	                .then(handleWin(callback), handleFail(callback));
+	        };
+
+	        Resource.prototype.getAll = function(callback){
+	            $http.get('/api/' + this.resourceName + '/')
+	                .then(handleWin(callback), handleFail(callback));
+	        };
+
+	        Resource.prototype.update = function(resource, callback){
+	            $http.put('/api/' + this.resourceName + '/' + resource._id, resource)
+	                .then(handleWin(callback), handleFail(callback));
+	        };
+
+	        Resource.prototype.remove = function(resource, callback){
+	            $http.delete('/api/' + this.resourceName + '/' + resource._id)
+	                .then(handleWin(callback), handleFail(callback));
+	        };
+
+	        return function(resourceName){
+	            return new Resource(resourceName);
+	        };
+	    }]);
+	};
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app){
+	    __webpack_require__(7)(app);
+	    __webpack_require__(8)(app);
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	module.exports = function(app){
+	    app.controller('TeamController', ['$scope', 'Resource', function($scope, Resource){
+	        $scope.lsugreet = 'This REST API updates a database of LSU Tigers football players. Update or create your favorite LSU player! GEAUX TIGERS!!'
 	        $scope.team = [];
 	        $scope.newPlayer = {};
+	        var teamResource = Resource('team');
 
 	        $scope.getAll = function(){
-	            $http.get('/api/team/')
-	                .then(function(res){
-	                    $scope.team = res.data;
-	                }, function(res){
-	                    console.log('GET error with ' + res);
-	                });
+	            teamResource.getAll(function(err, data){
+	                if (err) return console.log('getAll error with ' + err);
+	                $scope.team = data;
+	            });
 	        };
 
 	        $scope.create = function(tiger){
-	            $http.post('/api/team/', tiger)
-	                .then(function(res){
-	                    $scope.team.push(res.data);
-	                    $scope.newPlayer = null;
-	                }, function(res){
-	                    console.log('POST error with ' + res);
-	                });
+	            teamResource.create(tiger, function(err, data){
+	                if (err) return console.log('create error with ' + res);
+	                $scope.newPlayer = {};
+	                $scope.team.push(data);
+	            });
 	        };
 
 	        $scope.update = function(tiger){
-	            $http.put('/api/team/' + tiger._id , tiger)
-	                .then(function(res){
-	                    delete tiger.status;
-	                    tiger.editing = false;
-	                }, function(res){
-	                    console.log('PUT error with ' + res);
-	                    tiger.status = 'failed';
-	                    tiger.editing = false;
-	                });
+	            teamResource.update(tiger, function(err){
+	                if (err) return console.log('update error with ' + res);
+	                tiger.editing = false;
+	            });
 	        };
 
 	        $scope.edit = function(tiger){
@@ -29033,20 +29084,41 @@
 	        };
 
 	        $scope.remove = function(tiger){
-	            $http.delete('/api/team/' + tiger._id)
-	                .then(function(res){
-	                    $scope.team.splice($scope.team.indexOf(tiger), 1);
-	                }, function(res){
-	                    tiger.status = 'failed';
-	                    console.log('DELETE error with ' + res);
-	                });
+	            teamResource.remove(tiger, function(err){
+	                if (err) return console.log('remove error with ' + res);
+	                $scope.team.splice($scope.team.indexOf(tiger), 1);
+	            });
 	        };
 	    }]);
 	};
 
 
 /***/ },
-/* 6 */
+/* 8 */
+/***/ function(module, exports) {
+
+	module.exports = function(app){
+	    app.directive('teamForm', function(){
+	        return{
+	            restrict: 'AC',
+	            replace: true,
+	            templateUrl: '/templates/team/directives/team_form_template.html',
+	            scope: {
+	                labelText: '@',
+	                buttonText: '@',
+	                tiger: '=',
+	                save: '&'
+	            },
+	            controller: function($scope){
+	                console.log($scope.save);
+	            }
+	        }
+	    });
+	};
+
+
+/***/ },
+/* 9 */
 /***/ function(module, exports) {
 
 	/**

@@ -1,39 +1,30 @@
 module.exports = function(app){
-    app.controller('TeamController', ['$scope', '$http', function($scope, $http){
+    app.controller('TeamController', ['$scope', 'Resource', function($scope, Resource){
         $scope.lsugreet = 'This REST API updates a database of LSU Tigers football players. Update or create your favorite LSU player! GEAUX TIGERS!!'
-
         $scope.team = [];
         $scope.newPlayer = {};
+        var teamResource = Resource('team');
 
         $scope.getAll = function(){
-            $http.get('/api/team/')
-                .then(function(res){
-                    $scope.team = res.data;
-                }, function(res){
-                    console.log('GET error with ' + res);
-                });
+            teamResource.getAll(function(err, data){
+                if (err) return console.log('getAll error with ' + err);
+                $scope.team = data;
+            });
         };
 
         $scope.create = function(tiger){
-            $http.post('/api/team/', tiger)
-                .then(function(res){
-                    $scope.team.push(res.data);
-                    $scope.newPlayer = null;
-                }, function(res){
-                    console.log('POST error with ' + res);
-                });
+            teamResource.create(tiger, function(err, data){
+                if (err) return console.log('create error with ' + res);
+                $scope.newPlayer = {};
+                $scope.team.push(data);
+            });
         };
 
         $scope.update = function(tiger){
-            $http.put('/api/team/' + tiger._id , tiger)
-                .then(function(res){
-                    delete tiger.status;
-                    tiger.editing = false;
-                }, function(res){
-                    console.log('PUT error with ' + res);
-                    tiger.status = 'failed';
-                    tiger.editing = false;
-                });
+            teamResource.update(tiger, function(err){
+                if (err) return console.log('update error with ' + res);
+                tiger.editing = false;
+            });
         };
 
         $scope.edit = function(tiger){
@@ -51,13 +42,10 @@ module.exports = function(app){
         };
 
         $scope.remove = function(tiger){
-            $http.delete('/api/team/' + tiger._id)
-                .then(function(res){
-                    $scope.team.splice($scope.team.indexOf(tiger), 1);
-                }, function(res){
-                    tiger.status = 'failed';
-                    console.log('DELETE error with ' + res);
-                });
+            teamResource.remove(tiger, function(err){
+                if (err) return console.log('remove error with ' + res);
+                $scope.team.splice($scope.team.indexOf(tiger), 1);
+            });
         };
     }]);
 };
