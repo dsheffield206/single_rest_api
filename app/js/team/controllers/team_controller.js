@@ -46,5 +46,6 @@ module.exports = function(app){
                 if (err) return console.log('remove error with ' + res);
                 $scope.team.splice($scope.team.indexOf(tiger), 1);
             });
+        };
     }]);
 };

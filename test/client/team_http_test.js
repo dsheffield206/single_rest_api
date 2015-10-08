@@ -32,8 +32,6 @@ describe('team controller', function(){
         });
 
         it('should make a GET request when getAll() is called', function(){
-            // var player = {teamBody: 'test tiger', _id: 1, editing: true};
-
             $httpBackend.expectGET('/api/team/')
                 .respond([{teamBody: 'test tiger'},{teamBody: 'test stars'}]);
             $scope.getAll();
@@ -48,7 +46,7 @@ describe('team controller', function(){
             $scope.create($scope.newPlayer);
             $httpBackend.flush();
             expect($scope.team[0].teamBody).toBe('test tiger');
-            expect($scope.newPlayer).toBe(null);
+            expect($scope.newPlayer).not.toBe(null);
         });
 
         it('should be able to update a player', function(){
