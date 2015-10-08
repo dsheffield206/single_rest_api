@@ -4,7 +4,7 @@ var handleWin = function(callback){
     };
 };
 
-var handlefFail = function(callback){
+var handleFail = function(callback){
     return function(data){
         callback(data);
     };
@@ -17,23 +17,23 @@ module.exports = function(app){
         };
 
         Resource.prototype.create = function(resource, callback){
-            $http.post('/api/' + this.resourceName, resource)
-                .then(handleWin(callback), handlefFail(callback));
+            $http.post('/api/' + this.resourceName + '/', resource)
+                .then(handleWin(callback), handleFail(callback));
         };
 
         Resource.prototype.getAll = function(callback){
-            $http.get('/api/' + this.resourceName)
-                .then(handleWin(callback), handlefFail(callback));
+            $http.get('/api/' + this.resourceName + '/')
+                .then(handleWin(callback), handleFail(callback));
         };
 
         Resource.prototype.update = function(resource, callback){
             $http.put('/api/' + this.resourceName + '/' + resource._id, resource)
-                .then(handleWin(callback), handlefFail(callback));
+                .then(handleWin(callback), handleFail(callback));
         };
 
         Resource.prototype.remove = function(resource, callback){
             $http.delete('/api/' + this.resourceName + '/' + resource._id)
-                .then(handleWin(callback), handlefFail(callback));
+                .then(handleWin(callback), handleFail(callback));
         };
 
         return function(resourceName){
