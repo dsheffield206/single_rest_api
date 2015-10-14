@@ -21,10 +21,9 @@ module.exports = function(app){
         $scope.userVerify = function(user){
             $http.post('/api/signup', user)
                 .then(function(res){
-                    console.log(res.data);
-                    $cookies.set('eat', res);
-                    $scope.getUserName(); // update?
-                    $location.path('team');
+                    $cookies.put('eat', res.data.token);
+                    $scope.getUserName();
+                    $location.path('/team');
                 }, function(res){
                    console.log(res);
                 });

@@ -2,21 +2,23 @@
 
   <h1>{{h1Text}}</h1>
 
-  <form>
+  <form name="userForm" data-ng-submit="userVerify(user)">
     <label>
       User Name
-    <input type="text">
+    <input type="text" data-ng-model="user.username">
     </label>
     <label>
       Password
-      <input type="password">
+      <input type="password" data-ng-model="user.password">
     </label>
-    <label>
-      <input type="password">
+    <label data-ng-if="confirmPassword">
+      <p data-ng-if="!matchPassword(user)">The Password You Entered Does NOT Match</p>
+      Password Confirmation
+      <input type="password" data-ng-model="user.confirmation">
     </label>
-    <button></button>
+    <button type="submit" data-ng-disabled="disableButton(user)">{{buttonText}}</button>
   </form>
 
-  <button></button>
+  <button data-ng-click="pageSwap()">{{switchText}}</button>
 
 </section>
