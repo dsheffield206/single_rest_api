@@ -1,5 +1,11 @@
 module.exports = function(app){
-    app.controller('TeamController', ['$scope', 'Resource', function($scope, Resource){
+    app.controller('TeamController', ['$scope', 'Resource', '$http', '$cookies', '$location', function($scope, Resource, $http, $cookies, $location){
+
+        var eat = $cookies.get('eat');
+        if (!(eat && eat.length))
+            $location.path('/signup');
+
+        $http.defaults.headers.common.token = eat;
         $scope.lsugreet = 'This REST API updates a database of LSU Tigers football players. Update or create your favorite LSU player! GEAUX TIGERS!!'
         $scope.team = [];
         $scope.newPlayer = {};
