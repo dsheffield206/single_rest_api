@@ -9,6 +9,6 @@ var teamApp = angular.module('teamApp', ['ngRoute', 'base64', 'ngCookies']);
 require('./services/services')(teamApp);
 require('./team/team')(teamApp);
 require('./users/users')(teamApp);
-require('.logout')(teamApp);
+require('./logout')(teamApp);
 require('./router')(teamApp);
 
