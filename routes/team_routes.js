@@ -2,11 +2,12 @@ var lsutigers = require(__dirname + '/../models/team');
 var express = require('express');
 var jsonParser = require('body-parser').json();
 var handleError = require(__dirname + '/../lib/handle_error');
+var eatAuth = require(__dirname + '/../lib/eat_auth');
 
 var teamRouter = module.exports = exports = express.Router();
 
 teamRouter.get('/', function(req, res){
-    lsutigers.find({}, function(err, data){
+    lsutigers.find({author: req.user.username}, function(err, data){
         if(err) return handleError(err, res);
         res.json(data);
     });
@@ -17,6 +18,7 @@ teamRouter.post('/', jsonParser, function(req, res){
     newlsutigers.name = req.body.name;
     newlsutigers.position = req.body.position;
     newlsutigers.high_school = req.body.high_school;
+    newlsutigers.author = req.user.username;
     if(newlsutigers.name)
         newlsutigers.save(function(err, data){
             if(err) return handleError(err, res);

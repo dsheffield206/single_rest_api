@@ -8,56 +8,12 @@
   </head>
   <body data-ng-app="teamApp">
     <!-- Google Tag Manager -->
-    <main data-ng-controller="TeamController" data-ng-init="getAll()">
-      <h2>{{lsugreet}}</h2>
+    <a data-ng-if="loggedIn()" href data-ng-click="logOut()">Hello {{username? '' + '' username : ''}}!Click Here to Logout</a>
 
-      <form name="newTigerForm" data-ng-submit="create(newPlayer)">
-        <label>Player Name:</label><input type="text" data-ng-model="newPlayer.name">
-        <label>Position:</label><input type="text" data-ng-model="newPlayer.position">
-        <label>High School:</label><input type="text" data-ng-model="newPlayer.high_school">
-        <button type="submit" data-ng-disabled="newTigerForm.$invalid">Create Player</button>
-        <div data-team-form
-             data-ng-if="tiger.editing"
-             data-label-text="Edit Player Note"
-             data-button-text="Save Changes"
-             data-tiger="newPlayer"
-             data-save="create(newPlayer)">
-        </div>
-      </form>
-
-      <table>
-        <thead>
-          <tr>
-            <td>Player Name</td>
-            <td>Position</td>
-            <td>High School</td>
-            <td>User Submit</td>
-          </tr>
-        </thead>
-          <tr data-ng-repeat="tiger in team">
-            <td data-ng-if="!tiger.editing">{{tiger.name}}</td>
-            <td data-ng-if="!tiger.editing">{{tiger.position}}</td>
-            <td data-ng-if="!tiger.editing">{{tiger.high_school}}</td>
-            <td data-ng-if="tiger.editing"> <input type="text" data-ng-model="tiger.name"></td>
-            <td data-ng-if="tiger.editing"><input type="text" data-ng-model="tiger.position"></td>
-            <td data-ng-if="tiger.editing"><input type="text" data-ng-model="tiger.high_school"></td>
-            <td>
-              <button data-ng-if="!tiger.editing" data-ng-click="edit(tiger)">Edit</button>
-              <button data-ng-if="tiger.editing" data-ng-click="update(tiger)">Save</button>
-              <button data-ng-if="tiger.editing" data-ng-click="cancel(tiger)">Cancel</button>
-              <button data-ng-click="remove(tiger._id)">Delete</button>
-            </td>
-            <td data-team-form
-                data-ng-if="tiger.editing"
-                data-label-text="Edit Player Note"
-                data-button-text="Save Changes"
-                data-tiger="tiger"
-                data-save="update(tiger)">
-            </td>
-          </tr>
-      </table>
-
+    <h1>Inside my LSU Team App</h1>
+    <main data-ng-view>
     </main>
+
     <script src="bundle.js"></script>
   </body>
 </html>
