@@ -13,7 +13,7 @@ module.exports = function(teamApp){
                 controller: 'SigninController'
             })
             .otherwise({
-                redirectTo: 'signup'
+                redirectTo: '/signup'
             });
     }]);
 };
